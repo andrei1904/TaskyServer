@@ -24,6 +24,7 @@ public class AccountService : IAccountService
     public async Task<AuthenticationResponse?> AuthenticateAsync(string username, string password)
     {
         var loggingInUser = _context.Users
+            .Include(user => user.Tasks)
             .FirstOrDefault(user =>
                 user.Username == username && user.Password == _hashingHelper.HashPassword(password));
 
@@ -51,7 +52,7 @@ public class AccountService : IAccountService
 
         if (userId == null) return null;
 
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == userId);
         if (user == null || user.RefreshToken != refreshTokenModel.RefreshToken) return null;
 
         var refreshTokenResponse = new RefreshTokenResponse
@@ -69,7 +70,7 @@ public class AccountService : IAccountService
 
     public async Task<bool> RevokeRefreshToken(int userId)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == userId);
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == userId);
         if (string.IsNullOrEmpty(user?.RefreshToken)) return false;
 
         user.RefreshToken = null;

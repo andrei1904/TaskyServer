@@ -23,7 +23,7 @@ public class AccountController : ControllerBase
     {
         IActionResult response = Unauthorized();
         var data = await _accountService.AuthenticateAsync(loginModel.Username, loginModel.Password);
-        
+
         if (data?.AccessToken != null) response = Ok(data);
 
         return response;

@@ -1,11 +1,12 @@
 ﻿using TS.Model.Entities;
-using TS.Model.ViewModels;
 
 namespace TS.Business.Interfaces;
 
 public interface IUserService
 {
     Task<User?> GetByIdAsync(int id);
+
+    Task<User?> GetByIdWithTasksAsync(int id);
 
     Task<User?> AddAsync(User user);
 

@@ -30,6 +30,20 @@ public class UserController : ControllerBase
             user.ToViewModel()
         );
     }
+    
+    [HttpGet]
+    [Route("tasks/{id:int}")]
+    [AuthorizationFilter]
+    public async Task<IActionResult> GetByIdWithTasksAsync([FromRoute] int id)
+    {
+        var user = await _userService.GetByIdWithTasksAsync(id);
+        if (user == null)
+            return NotFound();
+    
+        return Ok(
+            user.ToViewModelWithTasks()
+        );
+    }
 
     [HttpPost]
     [Route("")]
@@ -53,7 +67,7 @@ public class UserController : ControllerBase
             return Unauthorized();
 
         var user = userUpdateViewModel.ToEntity();
-        user.Id = id;
+        user.UserId = id;
 
         try
         {

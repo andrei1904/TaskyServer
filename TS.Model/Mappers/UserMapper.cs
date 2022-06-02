@@ -23,7 +23,7 @@ public static class UserMapper
     {
         var userViewModel = new UserViewModel
         {
-            Id = user.Id,
+            Id = user.UserId,
             Username = user.Username,
             Password = user.Password,
             FirstName = user.FirstName,
@@ -31,6 +31,19 @@ public static class UserMapper
         };
 
         return userViewModel;
+    }
+
+    public static UserWithTasksViewModel ToViewModelWithTasks(this User user)
+    {
+        var userWithTasksViewModel = new UserWithTasksViewModel
+        {
+            Id = user.UserId,
+            Username = user.Username,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Tasks = user.Tasks
+        };
+        return userWithTasksViewModel;
     }
 
     public static User ToEntity(this UserCreationViewModel userCreationViewModel)
