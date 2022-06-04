@@ -1,8 +1,8 @@
-﻿using TS.Model.Enums;
+﻿using UDT.Model.ViewModels.Subtask;
 
-namespace TS.Model.Entities;
+namespace TS.Model.ViewModels.Task;
 
-public class Task
+public class TaskSubtasksViewModel
 {
     public long TaskId { get; set; }
 
@@ -12,14 +12,11 @@ public class Task
 
     public string Description { get; set; }
 
-    public Priority Priority { get; set; }
+    public string Priority { get; set; }
 
     public long Deadline { get; set; }
 
     public long ImposedDeadline { get; set; }
 
-    public List<Subtask> Subtasks { get; set; }
-
-    public long UserId { get; set; }
-    public User User { get; set; }
+    public List<SubtaskViewModel> Subtasks { get; set; }
 }

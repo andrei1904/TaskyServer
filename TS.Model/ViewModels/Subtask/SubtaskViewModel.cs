@@ -1,6 +1,6 @@
-﻿namespace TS.Model.Entities;
+﻿namespace UDT.Model.ViewModels.Subtask;
 
-public class Subtask
+public class SubtaskViewModel
 {
     public long SubtaskId { get; set; }
 
@@ -9,7 +9,4 @@ public class Subtask
     public string Description { get; set; }
 
     public bool isCompleted { get; set; }
-
-    public long TaskId { get; set; }
-    public Task Task { get; set; }
 }

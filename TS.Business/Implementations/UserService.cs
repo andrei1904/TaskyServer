@@ -4,7 +4,7 @@ using TS.Model.Entities;
 using TS.Repository;
 using Task = TS.Model.Entities.Task;
 
-namespace TS.Business.implementation;
+namespace TS.Business.Implementations;
 
 public class UserService : IUserService
 {
@@ -23,23 +23,10 @@ public class UserService : IUserService
     }
 
     public async Task<User?> GetByIdWithTasksAsync(int id)
-    { 
+    {
         return await _context.Users.Include(user => user.Tasks).FirstOrDefaultAsync(user => user.UserId == id);
     }
-    
-    public async Task<Task?> AddTaskAsync(int userId, Task task)
-    {
-        var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
-    
-        if (existingUser == null) throw new ArgumentNullException(nameof(userId), "da");
-    
-        // existingUser.Tasks.Add(task);
-        await _context.Tasks.AddAsync(task);
-        await _context.SaveChangesAsync();
 
-        return task;
-    }
-    
     public async Task<User?> AddAsync(User user)
     {
         if (await _context.Users.AnyAsync(u => u.Username == user.Username)) return null;
@@ -75,5 +62,18 @@ public class UserService : IUserService
         _context.Users.Remove(existingUser);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<Task?> AddTaskAsync(int userId, Task task)
+    {
+        var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+        if (existingUser == null) throw new ArgumentNullException(nameof(userId), "da");
+
+        // existingUser.Tasks.Add(task);
+        await _context.Tasks.AddAsync(task);
+        await _context.SaveChangesAsync();
+
+        return task;
     }
 }

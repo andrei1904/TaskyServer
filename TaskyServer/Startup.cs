@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using TaskyServer.Middlewares;
 using TS.Business.Helpers;
-using TS.Business.implementation;
+using TS.Business.Implementations;
 using TS.Business.Interfaces;
 using TS.Model;
 using TS.Repository;
@@ -35,6 +35,9 @@ public class Startup
 
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IAccountService, AccountService>();
+        services.AddTransient<ITaskService, TaskService>();
+        services.AddTransient<ISubtaskService, SubtaskService>();
+
 
         // In production, the React files will be served from this directory
         // services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
@@ -55,6 +58,12 @@ public class Startup
         }
         else
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "TASKY");
+                options.RoutePrefix = string.Empty;
+            });
             app.UseExceptionHandler("/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskyServer.Filters;
 using TS.Business.Interfaces;
 using TS.Model;
 using TS.Model.Account;
@@ -51,6 +52,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     [Route("logout")]
     [Produces("application/json")]
+    [AuthorizationFilter]
     public async Task<IActionResult> LogoutAsync()
     {
         var userId = HttpContext.Items["UserId"];

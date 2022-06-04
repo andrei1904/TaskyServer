@@ -1,6 +1,4 @@
-﻿using Task = TS.Model.Entities.Task;
-
-namespace TS.Model.ViewModels;
+﻿namespace TS.Model.ViewModels;
 
 public class UserWithTasksViewModel
 {
@@ -12,5 +10,5 @@ public class UserWithTasksViewModel
 
     public string LastName { get; set; }
 
-    public List<Task> Tasks { get; set; }
+    public List<Entities.Task> Tasks { get; set; }
 }

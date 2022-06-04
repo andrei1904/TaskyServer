@@ -6,7 +6,8 @@ namespace TS.Repository;
 
 public class DataContext : DbContext
 {
-    public DataContext(DbContextOptions<DataContext> options) : base(options)
+    public DataContext(DbContextOptions<DataContext> options)
+        : base(options)
     {
     }
 
@@ -18,8 +19,17 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Task>()
-            .HasOne(n => n.User)
-            .WithMany(n => n.Tasks);
+        // modelBuilder.Entity<User>()
+        //     .HasMany(user => user.Tasks)
+        //     .WithOne()
+        //     .HasForeignKey(x => x.UserId);
+
+        // modelBuilder
+        //     .Entity<Task>()
+        //     .Property(t => t.Priority)
+        //     .HasConversion(
+        //         p => p.ToString(),
+        //         p => (Priority)Enum.Parse(typeof(Priority), p)
+        //     );
     }
 }

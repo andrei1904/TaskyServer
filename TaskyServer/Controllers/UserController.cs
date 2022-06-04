@@ -30,20 +30,6 @@ public class UserController : ControllerBase
             user.ToViewModel()
         );
     }
-    
-    [HttpGet]
-    [Route("tasks/{id:int}")]
-    [AuthorizationFilter]
-    public async Task<IActionResult> GetByIdWithTasksAsync([FromRoute] int id)
-    {
-        var user = await _userService.GetByIdWithTasksAsync(id);
-        if (user == null)
-            return NotFound();
-    
-        return Ok(
-            user.ToViewModelWithTasks()
-        );
-    }
 
     [HttpPost]
     [Route("")]
@@ -61,7 +47,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UserUpdateViewModel userUpdateViewModel)
     {
         var userIdFromContext = HttpContext.Items["UserId"];
-        if (userIdFromContext == null) return NotFound("This user does not exist!");
+        if (userIdFromContext == null) return Unauthorized();
 
         if ((int)userIdFromContext != id)
             return Unauthorized();
@@ -79,13 +65,5 @@ public class UserController : ControllerBase
         }
 
         return Ok(user.ToViewModel());
-    }
-
-    [HttpDelete]
-    [Route("{id:int}")]
-    [AuthorizationFilter]
-    public async Task<IActionResult> Delete([FromRoute] int id)
-    {
-        return Ok(await _userService.DeleteAsync(id));
     }
 }

@@ -4,7 +4,7 @@ using TS.Model;
 using TS.Model.Mappers;
 using TS.Repository;
 
-namespace TS.Business.implementation;
+namespace TS.Business.Implementations;
 
 public class AccountService : IAccountService
 {
@@ -24,7 +24,7 @@ public class AccountService : IAccountService
     public async Task<AuthenticationResponse?> AuthenticateAsync(string username, string password)
     {
         var loggingInUser = _context.Users
-            .Include(user => user.Tasks)
+            // .Include(user => user.Tasks)
             .FirstOrDefault(user =>
                 user.Username == username && user.Password == _hashingHelper.HashPassword(password));
 
