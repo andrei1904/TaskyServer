@@ -27,14 +27,13 @@ public class TaskController : ControllerBase
             var userId = HttpContext.Items["UserId"];
             if (userId == null) return Unauthorized();
 
-            await _taskService.AddAsync((int)userId, taskCreationViewModel.ToEntity());
+            var id = await _taskService.AddAsync((int)userId, taskCreationViewModel.ToEntity());
+            return Ok(id);
         }
         catch (Exception exception)
         {
             return NotFound(exception.Message);
         }
-
-        return Ok();
     }
 
     [HttpGet]
@@ -68,6 +67,42 @@ public class TaskController : ControllerBase
 
             var result = await _taskService.DeleteTaskForUser((int)userId, taskId);
             return Ok(result);
+        }
+        catch (Exception exception)
+        {
+            return NotFound(exception.Message);
+        }
+    }
+    
+    [HttpPut]
+    [Route("{taskId:int}/progress")]
+    [AuthorizationFilter]
+    public async Task<IActionResult> UpdateProgress([FromRoute] int taskId, [FromBody] int progress)
+    {
+        var userId = HttpContext.Items["UserId"];
+        if (userId == null) return Unauthorized();
+        
+        try
+        {
+            return Ok(await _taskService.UpdateProgress(taskId, progress));
+        }
+        catch (Exception exception)
+        {
+            return NotFound(exception.Message);
+        }
+    }
+    
+    [HttpPut]
+    [Route("{taskId:int}/time")]
+    [AuthorizationFilter]
+    public async Task<IActionResult> UpdateTime([FromRoute] int taskId, [FromBody] long time)
+    {
+        var userId = HttpContext.Items["UserId"];
+        if (userId == null) return Unauthorized();
+        
+        try
+        {
+            return Ok(await _taskService.UpdateTime(taskId, time));
         }
         catch (Exception exception)
         {

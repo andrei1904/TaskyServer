@@ -1,4 +1,6 @@
-﻿namespace UDT.Model.ViewModels.Subtask;
+﻿using TS.Model.Enums;
+
+namespace TS.Model.ViewModels.Subtask;
 
 public class SubtaskViewModel
 {
@@ -8,5 +10,7 @@ public class SubtaskViewModel
 
     public string Description { get; set; }
 
-    public bool isCompleted { get; set; }
+    public string Status { get; set; }
+    
+    public string Difficulty { get; set; }
 }

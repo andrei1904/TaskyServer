@@ -78,4 +78,18 @@ public class AccountService : IAccountService
 
         return true;
     }
+
+    public async Task<bool> CheckToken(int userId)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == userId);
+
+        if (user == null) return false;
+
+        var refreshTokenExpiryTime = user.RefreshTokenExpiryTime;
+
+        if (refreshTokenExpiryTime == null) return false;
+
+        // if (refreshTokenExpiryTime.Value.CompareTo())
+        return true;
+    }
 }

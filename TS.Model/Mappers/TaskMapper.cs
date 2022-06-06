@@ -15,7 +15,11 @@ public static class TaskMapper
             Description = taskCreationViewModel.Description,
             Priority = (Priority)Enum.Parse(typeof(Priority), taskCreationViewModel.Priority),
             Deadline = taskCreationViewModel.Deadline,
-            ImposedDeadline = taskCreationViewModel.ImposedDeadline
+            ImposedDeadline = taskCreationViewModel.ImposedDeadline,
+            Status = (Status)Enum.Parse(typeof(Status), taskCreationViewModel.Status),
+            SpentTime = taskCreationViewModel.SpentTime,
+            Difficulty = (Difficulty)Enum.Parse(typeof(Difficulty), taskCreationViewModel.Difficulty),
+            Progress = taskCreationViewModel.Progress
         };
 
         return task;
@@ -31,23 +35,21 @@ public static class TaskMapper
             Description = task.Description,
             Priority = task.Priority.ToString(),
             Deadline = task.Deadline,
-            ImposedDeadline = task.ImposedDeadline
+            ImposedDeadline = task.ImposedDeadline,
+            Status = task.Status.ToString(),
+            SpentTime = task.SpentTime,
+            Difficulty = task.Difficulty.ToString(),
+            Progress = task.Progress
         };
 
         return taskViewModel;
     }
-    
+
     public static TaskSubtasksViewModel ToTaskSubtasksViewModel(this Task task)
     {
-        var taskViewModel = new TaskSubtasksViewModel()
+        var taskViewModel = new TaskSubtasksViewModel
         {
-            TaskId = task.TaskId,
-            Domain = task.Domain,
-            Title = task.Title,
-            Description = task.Description,
-            Priority = task.Priority.ToString(),
-            Deadline = task.Deadline,
-            ImposedDeadline = task.ImposedDeadline,
+            Task = task.ToViewModel(),
             Subtasks = task.Subtasks.Select(subtask => subtask.ToViewModel()).ToList()
         };
 

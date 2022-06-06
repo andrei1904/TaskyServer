@@ -1,5 +1,6 @@
 ﻿using TS.Model.Entities;
-using UDT.Model.ViewModels.Subtask;
+using TS.Model.Enums;
+using TS.Model.ViewModels.Subtask;
 
 namespace TS.Model.Mappers;
 
@@ -11,20 +12,22 @@ public static class SubtaskMapper
         {
             Title = subtaskCreationViewModel.Title,
             Description = subtaskCreationViewModel.Description,
-            isCompleted = subtaskCreationViewModel.isCompleted
+            Status = (SubtaskStatus)Enum.Parse(typeof(SubtaskStatus), subtaskCreationViewModel.Status),
+            Difficulty = (Difficulty)Enum.Parse(typeof(Difficulty), subtaskCreationViewModel.Difficulty)
         };
 
         return subtask;
     }
-    
+
     public static SubtaskViewModel ToViewModel(this Subtask subtask)
     {
-        var subtaskViewModel = new SubtaskViewModel()
+        var subtaskViewModel = new SubtaskViewModel
         {
             SubtaskId = subtask.SubtaskId,
             Title = subtask.Title,
             Description = subtask.Description,
-            isCompleted = subtask.isCompleted
+            Status = subtask.Status.ToString(),
+            Difficulty = subtask.Difficulty.ToString()
         };
 
         return subtaskViewModel;

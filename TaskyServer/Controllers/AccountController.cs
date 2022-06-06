@@ -49,6 +49,18 @@ public class AccountController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet]
+    [Route("check-token")]
+    public async Task<IActionResult> IsTokenValid()
+    {
+        var userId = HttpContext.Items["UserId"];
+        if (userId == null) return Unauthorized();
+
+        var response = await _accountService.CheckToken((int)userId);
+
+        return Ok(response);
+    }
+
     [HttpPost]
     [Route("logout")]
     [Produces("application/json")]

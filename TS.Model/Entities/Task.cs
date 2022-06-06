@@ -17,9 +17,18 @@ public class Task
     public long Deadline { get; set; }
 
     public long ImposedDeadline { get; set; }
-
+    
+    public Status Status { get; set; }
+    
+    public long SpentTime { get; set; }
+    
+    public Difficulty Difficulty { get; set; }
+    
     public List<Subtask> Subtasks { get; set; }
-
+    
+    public int Progress { get; set; }
+    
     public long UserId { get; set; }
+    
     public User User { get; set; }
 }
