@@ -17,13 +17,14 @@ public class TaskViewModel
     public long Deadline { get; set; }
 
     public long ImposedDeadline { get; set; }
-    
+
     public string Status { get; set; }
-    
+
     public long SpentTime { get; set; }
-    
+
     public string Difficulty { get; set; }
-    
+
     public int Progress { get; set; }
 
+    public string ProgressBarType { get; set; }
 }

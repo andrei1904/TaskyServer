@@ -37,7 +37,7 @@ public class SubtaskController : ControllerBase
             return NotFound(exception.Message);
         }
     }
-    
+
     [HttpPut]
     [Route("{subtaskId:int}")]
     [AuthorizationFilter]
@@ -45,7 +45,7 @@ public class SubtaskController : ControllerBase
     {
         var userId = HttpContext.Items["UserId"];
         if (userId == null) return Unauthorized();
-        
+
         try
         {
             var result = await _subtaskService.Update(subtaskId, subtask.ToEntity());

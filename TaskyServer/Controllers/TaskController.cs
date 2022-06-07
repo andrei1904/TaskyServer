@@ -73,7 +73,7 @@ public class TaskController : ControllerBase
             return NotFound(exception.Message);
         }
     }
-    
+
     [HttpPut]
     [Route("{taskId:int}/progress")]
     [AuthorizationFilter]
@@ -81,7 +81,7 @@ public class TaskController : ControllerBase
     {
         var userId = HttpContext.Items["UserId"];
         if (userId == null) return Unauthorized();
-        
+
         try
         {
             return Ok(await _taskService.UpdateProgress(taskId, progress));
@@ -91,7 +91,7 @@ public class TaskController : ControllerBase
             return NotFound(exception.Message);
         }
     }
-    
+
     [HttpPut]
     [Route("{taskId:int}/time")]
     [AuthorizationFilter]
@@ -99,7 +99,7 @@ public class TaskController : ControllerBase
     {
         var userId = HttpContext.Items["UserId"];
         if (userId == null) return Unauthorized();
-        
+
         try
         {
             return Ok(await _taskService.UpdateTime(taskId, time));

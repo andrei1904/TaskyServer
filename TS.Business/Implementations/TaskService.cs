@@ -24,6 +24,8 @@ public class TaskService : ITaskService
         task.UserId = userId;
         task.User = user;
 
+        task.ProgressBarType = ProgressBarType.Type0;
+
         await _context.Tasks.AddAsync(task);
         await _context.SaveChangesAsync();
 
@@ -37,9 +39,13 @@ public class TaskService : ITaskService
 
         if (user is null) throw new Exception("User not found");
 
-        user.Tasks.ForEach(task => UpdateStatus(task));
+        user.Tasks.ForEach(task =>
+        {
+            UpdateStatus(task);
+            SetProgressBarType(task);
+        });
         await _context.SaveChangesAsync();
-        
+
         return user.Tasks.AsEnumerable();
     }
 
@@ -64,8 +70,8 @@ public class TaskService : ITaskService
         var task = await _context.Tasks.FirstOrDefaultAsync(task => task.TaskId == taskId);
 
         if (task is null) throw new Exception("Task not found");
-        
-        
+
+
         task.Progress = progress;
         UpdateStatus(task, progress);
         await _context.SaveChangesAsync();
@@ -93,10 +99,7 @@ public class TaskService : ITaskService
             return;
         }
 
-        if (progress == -1)
-        {
-            progress = task.Progress;
-        }
+        if (progress == -1) progress = task.Progress;
 
         task.Status = progress switch
         {
@@ -106,6 +109,28 @@ public class TaskService : ITaskService
             _ => task.Status
         };
     }
+
+    private void SetProgressBarType(Task task)
+    {
+        switch (task.Subtasks.Count)
+        {
+            case 0:
+                task.ProgressBarType = ProgressBarType.Type0;
+                return;
+            case < 3 or > 6:
+                task.ProgressBarType = ProgressBarType.Type2;
+                return;
+        }
+
+        task.ProgressBarType = ProgressBarType.Type1;
+        // var hardSubtasks = task.Subtasks.Select(subtask => subtask.Difficulty == Difficulty.Hard).Count();
+        // var mediumSubtasks = task.Subtasks.Select(subtask => subtask.Difficulty == Difficulty.Medium).Count();
+        // var easySubtasks = task.Subtasks.Select(subtask => subtask.Difficulty == Difficulty.Easy).Count();
+        //
+        // task.ProgressBarType =
+        //     hardSubtasks > mediumSubtasks + easySubtasks ? ProgressBarType.Type1 : ProgressBarType.Type2;
+    }
+
     public IAsyncEnumerable<Task> GetRangeForUserAsync(int userId, int offset, int count)
     {
         return _context.Tasks.Include(task => task.Subtasks).Where(task => task.UserId == userId).Skip(offset)

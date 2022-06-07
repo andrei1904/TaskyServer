@@ -1,5 +1,4 @@
 ﻿using TS.Model.Entities;
-using TS.Model.ViewModels.Subtask;
 
 namespace TS.Business.Interfaces;
 

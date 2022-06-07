@@ -1,6 +1,4 @@
-﻿using TS.Model.Enums;
-
-namespace TS.Model.ViewModels.Subtask;
+﻿namespace TS.Model.ViewModels.Subtask;
 
 public class SubtaskViewModel
 {
@@ -11,6 +9,6 @@ public class SubtaskViewModel
     public string Description { get; set; }
 
     public string Status { get; set; }
-    
+
     public string Difficulty { get; set; }
 }

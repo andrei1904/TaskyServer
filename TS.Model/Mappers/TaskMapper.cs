@@ -39,7 +39,8 @@ public static class TaskMapper
             Status = task.Status.ToString(),
             SpentTime = task.SpentTime,
             Difficulty = task.Difficulty.ToString(),
-            Progress = task.Progress
+            Progress = task.Progress,
+            ProgressBarType = task.ProgressBarType.ToString()
         };
 
         return taskViewModel;
