@@ -39,8 +39,6 @@ public class Startup
         services.AddTransient<ISubtaskService, SubtaskService>();
 
 
-        // In production, the React files will be served from this directory
-        // services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "TASKY", Version = "v1" }); });
     }
 
@@ -69,10 +67,7 @@ public class Startup
             app.UseHsts();
         }
 
-        // app.UseHttpsRedirection();
         app.UseStaticFiles();
-        // app.UseSpaStaticFiles();
-
         app.UseRouting();
 
         app.UseMiddleware<AttachUserToContextMiddleware>();

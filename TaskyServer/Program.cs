@@ -12,12 +12,5 @@ public class Program
         return Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
-
-    // private static IWebHost CreateHostBuilder(string[] args)
-    // {
-    //     return WebHost.CreateDefaultBuilder(args)
-    //         .UseStartup<Startup>()
-    //         .Build();
-    //     // .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-    // }
+    
 }
