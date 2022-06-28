@@ -32,7 +32,7 @@ public class TaskService : ITaskService
         return task.TaskId;
     }
 
-    public async Task<IEnumerable<Task>> GetAllForUserAsync(int userId)
+    public async Task<IEnumerable<Task>> GetAllForUserAsync(int userId, string status)
     {
         var user = await _context.Users.Include(user => user.Tasks).ThenInclude(task => task.Subtasks)
             .FirstOrDefaultAsync(user => user.UserId == userId);
@@ -44,9 +44,21 @@ public class TaskService : ITaskService
             UpdateStatus(task);
             SetProgressBarType(task);
         });
+
         await _context.SaveChangesAsync();
 
-        return user.Tasks.AsEnumerable();
+        if (status == "all_tasks") return user.Tasks.AsEnumerable();
+        
+        var s = status switch
+        {
+            "0" => Status.New,
+            "1" => Status.InProgress,
+            "2" => Status.Complete,
+            "3" => Status.Overdue,
+            _ => Status.New
+        };
+
+        return user.Tasks.Where(task => task.Status == s).AsEnumerable();
     }
 
     public async Task<bool> DeleteTaskForUser(int userId, int taskId)

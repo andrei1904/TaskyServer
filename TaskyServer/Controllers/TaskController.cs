@@ -37,16 +37,16 @@ public class TaskController : ControllerBase
     }
 
     [HttpGet]
-    [Route("")]
+    [Route("{status}")]
     [AuthorizationFilter]
-    public async Task<IActionResult> GetAllForUserAsync()
+    public async Task<IActionResult> GetAllForUserAsync([FromRoute] string status)
     {
         try
         {
             var userId = HttpContext.Items["UserId"];
             if (userId == null) return Unauthorized();
 
-            var tasks = await _taskService.GetAllForUserAsync((int)userId);
+            var tasks = await _taskService.GetAllForUserAsync((int)userId, status);
             return Ok(tasks.Select(task => task.ToTaskSubtasksViewModel()));
         }
         catch (Exception exception)
