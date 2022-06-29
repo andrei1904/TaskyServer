@@ -105,7 +105,7 @@ public class TaskService : ITaskService
 
     private void UpdateStatus(Task task, int progress = -1)
     {
-        if (task.Deadline <= new DateTimeOffset(DateTime.Now).ToUnixTimeMilliseconds())
+        if (task.Progress != 100 && task.Deadline <= new DateTimeOffset(DateTime.Now).ToUnixTimeMilliseconds())
         {
             task.Status = Status.Overdue;
             return;
@@ -135,17 +135,5 @@ public class TaskService : ITaskService
         }
 
         task.ProgressBarType = ProgressBarType.Type1;
-        // var hardSubtasks = task.Subtasks.Select(subtask => subtask.Difficulty == Difficulty.Hard).Count();
-        // var mediumSubtasks = task.Subtasks.Select(subtask => subtask.Difficulty == Difficulty.Medium).Count();
-        // var easySubtasks = task.Subtasks.Select(subtask => subtask.Difficulty == Difficulty.Easy).Count();
-        //
-        // task.ProgressBarType =
-        //     hardSubtasks > mediumSubtasks + easySubtasks ? ProgressBarType.Type1 : ProgressBarType.Type2;
-    }
-
-    public IAsyncEnumerable<Task> GetRangeForUserAsync(int userId, int offset, int count)
-    {
-        return _context.Tasks.Include(task => task.Subtasks).Where(task => task.UserId == userId).Skip(offset)
-            .Take(count).AsAsyncEnumerable();
     }
 }
