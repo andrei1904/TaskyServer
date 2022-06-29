@@ -19,17 +19,5 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.Entity<User>()
-        //     .HasMany(user => user.Tasks)
-        //     .WithOne()
-        //     .HasForeignKey(x => x.UserId);
-
-        // modelBuilder
-        //     .Entity<Task>()
-        //     .Property(t => t.Priority)
-        //     .HasConversion(
-        //         p => p.ToString(),
-        //         p => (Priority)Enum.Parse(typeof(Priority), p)
-        //     );
     }
 }
